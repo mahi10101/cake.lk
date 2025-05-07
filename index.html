@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cake Order Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffe0c3, #f8cdda);
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 800px;
+      background: #fff;
+      margin: auto;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #d6336c;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border 0.2s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #ff7f50;
+      outline: none;
+    }
+    button {
+      margin-top: 25px;
+      padding: 14px 20px;
+      background-color: #d6336c;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ad2252;
+    }
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: 600;
+      margin-top: 20px;
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Place Your Cake Order</h1>
+  <form id="orderForm">
+    <label>About Order</label>
+    <textarea name="aboutOrder" required></textarea>
+
+    <label>Order Number</label>
+    <input type="text" name="orderNumber" required />
+
+    <label>Order Date</label>
+    <input type="date" name="orderDate" required />
+
+    <label>Delivery Date</label>
+    <input type="date" name="deliverDate" required />
+
+    <label>Customer Name</label>
+    <input type="text" name="customerName" required />
+
+    <label>Contact Number</label>
+    <input type="tel" name="contact" required />
+
+    <label>Location</label>
+    <input type="text" name="location" required />
+
+    <label>Message on Cake</label>
+    <textarea name="cakeMessage"></textarea>
+
+    <label>Surprise</label>
+    <select name="surprise" required>
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <label>Payment To</label>
+    <select name="paymentTo" required>
+      <option value="">-- Select --</option>
+      <option value="Siyasra">Siyasra</option>
+      <option value="Techyfish">Techyfish</option>
+    </select>
+
+    <label>Advance (₹)</label>
+    <input type="number" name="advance" step="0.01" />
+
+    <label>Balance (₹)</label>
+    <input type="number" name="balance" step="0.01" />
+
+    <button type="submit">Submit Order</button>
+  </form>
+
+  <p class="success-message" id="successMsg">🎉 Order submitted successfully!</p>
+</div>
+
+<script>
+  const form = document.getElementById("orderForm");
+  const successMsg = document.getElementById("successMsg");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
+
+    fetch("https://script.google.com/macros/s/AKfycbwq14qGvRGibO4dYFCmOvHMKQCIci4GcWOPv6yJMoYRoVLuSMnmXNSJ-Dieqsd632Ep/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }).then(() => {
+      successMsg.style.display = "block";
+      form.reset();
+    }).catch(err => {
+      alert("Something went wrong. Please try again.");
+    });
+  });
+</script>
+
+</body>
+</html>
